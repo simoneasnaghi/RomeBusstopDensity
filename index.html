@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+<title>Play with maps' intersection</title>
+
+<script type="text/javascript">
+window.onload = function() {
+  var imgs = document.getElementsByTagName('img'), i, img;
+  for (i = 0; i < imgs.length; i++) {
+    img = imgs[i];
+    // center an image if it is the only element of its parent
+    if (img.parentElement.childElementCount === 1)
+      img.parentElement.style.textAlign = 'center';
+  }
+};
+</script>
+
+
+
+
+
+<style type="text/css">
+body, td {
+   font-family: sans-serif;
+   background-color: white;
+   font-size: 13px;
+}
+
+body {
+  max-width: 800px;
+  margin: auto;
+  padding: 1em;
+  line-height: 20px;
+}
+
+tt, code, pre {
+   font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
+}
+
+h1 {
+   font-size:2.2em;
+}
+
+h2 {
+   font-size:1.8em;
+}
+
+h3 {
+   font-size:1.4em;
+}
+
+h4 {
+   font-size:1.0em;
+}
+
+h5 {
+   font-size:0.9em;
+}
+
+h6 {
+   font-size:0.8em;
+}
+
+a:visited {
+   color: rgb(50%, 0%, 50%);
+}
+
+pre, img {
+  max-width: 100%;
+}
+pre {
+  overflow-x: auto;
+}
+pre code {
+   display: block; padding: 0.5em;
+}
+
+code {
+  font-size: 92%;
+  border: 1px solid #ccc;
+}
+
+code[class] {
+  background-color: #F8F8F8;
+}
+
+table, td, th {
+  border: none;
+}
+
+blockquote {
+   color:#666666;
+   margin:0;
+   padding-left: 1em;
+   border-left: 0.5em #EEE solid;
+}
+
+hr {
+   height: 0px;
+   border-bottom: none;
+   border-top-width: thin;
+   border-top-style: dotted;
+   border-top-color: #999999;
+}
+
+@media print {
+   * {
+      background: transparent !important;
+      color: black !important;
+      filter:none !important;
+      -ms-filter: none !important;
+   }
+
+   body {
+      font-size:12pt;
+      max-width:100%;
+   }
+
+   a, a:visited {
+      text-decoration: underline;
+   }
+
+   hr {
+      visibility: hidden;
+      page-break-before: always;
+   }
+
+   pre, blockquote {
+      padding-right: 1em;
+      page-break-inside: avoid;
+   }
+
+   tr, img {
+      page-break-inside: avoid;
+   }
+
+   img {
+      max-width: 100% !important;
+   }
+
+   @page :left {
+      margin: 15mm 20mm 15mm 10mm;
+   }
+
+   @page :right {
+      margin: 15mm 10mm 15mm 20mm;
+   }
+
+   p, h2, h3 {
+      orphans: 3; widows: 3;
+   }
+
+   h2, h3 {
+      page-break-after: avoid;
+   }
+}
+</style>
+
+
+
+</head>
+
+<body>
+<h1>Play with maps' intersection</h1>
+
+<h2>Simone Asnaghi</h2>
+
+<p><em>Sunday, November 13, 2016</em></p>
+
+<p>Starting by two different data maps - Rome's neighbours and Rome's public transport stops - a new map is created, aiming to highlight the &quot;density of stops&quot; (number of stops per square kilometer) of each Rome's neighobours.
+In the folowing, data sources as description of processing method are reported.</p>
+
+<h2>Background</h2>
+
+<p>It is well known how many cities suffers from fast growing of population and urbanized areas. In particular, the more the city expands its border, the difficultiest becomes the possibility to serve the farest inhabitants. The data regarding  exact positions (latitude and longitude) of each bus stop are extracted from Rome's public transport agency and intersection of these points with Rome's neighbours borders, in order to count the exact number of stops per neighbours.
+The number of stops, taken alone, is not a good measure of the capacity of the public transport: such information has to be compared with other information related to the &quot;clients&quot; to be served. Here the area of each neighbor is used to calculate the &quot;density of stops&quot;,measured in stops per square kilometer, of each neighbour.</p>
+
+<h2>Data</h2>
+
+<p>Data set in GTFS (General Transit Feed Specification) format for Rome's public transport has been downloaded by Open Data page of &quot;Roma Mobilità&quot;: [<a href="http://dati.muovi.roma.it/gtfs/rome_static_gtfs.zip">http://dati.muovi.roma.it/gtfs/rome_static_gtfs.zip</a>]</p>
+
+<p>You can find a map of the public transport stops, already extracted from GTFS data, with downloadable dataset, in  this page from my Carto profile: [<a href="https://coffee.carto.com/tables/stops/public">https://coffee.carto.com/tables/stops/public</a>]</p>
+
+<p>Yet in my Carto profile, you can find the maps and related dataset,for the borders of Rome's neighbours: [<a href="https://coffee.carto.com/tables/romamunicipi/public">https://coffee.carto.com/tables/romamunicipi/public</a>]. If you use the document you create for this class for any purpose please cite them as they have been very generous in allowing their data to be used for this kind of assignment.</p>
+
+<h2>Work</h2>
+
+<h3>Work on data</h3>
+<h4>Load and elaborate data</h4>
+
+<p>First of all, you have to upload both dataset above in your Carto profile. In the following, table related to Rome's public transport stops will be named as <i>stops</i>, while the dataset related to Rome's neighbours borders will be named <i>romamunicipi.</i></p>
+<p>By doing so, datasets regarding coordinate of bus stops in table <i>stops</i> and &quot;Polygon&quot; regarding neighbours' borders in table <i>romamunicipi</i>, are available.</p>
+<p>Then, as the second step, it is necessary to publish &quot;romamunicipi&quot; map, in order to elaborate data.</p>
+<p>Then, open &quot;romamunicipi&quot; map, go to <i>LAYER</i> tab and select &quot;romamunicipi&quot;: a new menu is now available, permitting to elaborate data, style, pop-up, legend and perform analysis.</p>
+<p>At the bottom of the &quot;DATA&quot; tab, there's a switch permitting to select between &quot;value&quot; and &quot;SQL&quot;: select &quot;SQL&quot;.</p>
+<p>Now you should see classic SQL statement:</p>
+
+<pre><code class="r">
+SELECT * from romamunicipi
+</code></pre>
+<p>Here the magic, using following SQL statement:</p>
+<pre><code class="r">
+SELECT
+  rm.municipio AS municipio,
+  count(c.*) As cnt,
+  (ST_Area(rm.the_geom::geography)/1000000) as area,
+  round(CAST((count(c.*)/(ST_Area(rm.the_geom::geography)/1000000)) as numeric),2) AS density,
+  ST_Transform(rm.the_geom,3857) As the_geom_webmercator,
+  rm.cartodb_id AS cartodb_id
+FROM 
+  romamunicipi As rm
+JOIN
+  stops As c
+ON ST_Contains(rm.the_geom, c.the_geom)
+GROUP BY rm.the_geom, rm.cartodb_id
+</code></pre>
+
+<h4>Examine SQL statement</h4>
+<p>table &quot;romamunicipi&quot; and &quot;stops&quot; have been renamed as &quot;rm&quot; and &quot;c&quot; respectively.</p>
+<p>The strategy is to group all stops in the same neighbour: <b>GROUP BY</b> partitions data into discrete groups, allowing to perform functions on a group-by-group basis.</p>
+<p><b>ST_Contains</b> finds out the points (stops) which intersect with each polygon (neighbours).</p>
+<p>So the <b>JOIN</b> applied <b>ON</b> the <b>ST_Contains</b> results, produce a table containing both elements from datasets &quot;romamunicipi&quot; and &quot;stops&quot;
+<p>Now there's a sets of points, grouped by neighbour, to apply the functions necessary to extract data we need:</p>
+<p>- <b>count</b> is a function  permitting to count the number of elements which it is applied to;</p>
+<p>- ST_Area calculates the area of a geometry: being the measure in square metres, here it is normalized by 1000000;</p>
+<p>- the density, in terms of number of stops for square kilometers, is calculated as by dividing the results from last two functions. In order to avoid a lot of decimal points, function <b>round</b> is used. because such function need to be used on numeric value, <b>CAST</b> is used to convert double precision to numeric.</p>
+
+<h3>Graphical processing</h3>
+<p>Now it's time wo work on visualization.</p>
+<p>From tab <i>STYLE</i>, let click on <i>fill</i> and choose <i>by value</i> option: in this case, choosing 4 buckets seems to well represent differences from nwighbour to neighbour.</p>
+<p>From tab <i>POP-UP</i>, select <i>light</i> style to pop-up information about <i>municipio</i>, <i>cnt</i> (number of stops), and <i>density</i>.</p>
+
+</body>
+
+</html>
